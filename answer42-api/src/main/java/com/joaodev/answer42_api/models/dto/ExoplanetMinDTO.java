@@ -1,7 +1,9 @@
 package com.joaodev.answer42_api.models.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class ExoplanetMinDTO {
 
     private String id;

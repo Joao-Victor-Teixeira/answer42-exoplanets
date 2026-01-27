@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.joaodev.answer42_api.models.dto.BigStarSystemDTO;
 import com.joaodev.answer42_api.models.dto.ExoplanetMinDTO;
 import com.joaodev.answer42_api.models.dto.ExoplanetsDTO;
 import com.joaodev.answer42_api.models.dto.StarSystemDTO;
@@ -42,6 +43,12 @@ public class ExoplanetsController {
     @GetMapping("/top-stars")
     public ResponseEntity<List<StarSystemDTO>> getTopStars() {
         List<StarSystemDTO> topStars = service.getTopStarSystems();
-        return ResponseEntity.ok(topStars);
+        return ResponseEntity.ok().body(topStars);
+    }
+
+    @GetMapping("/big-stars")
+    public ResponseEntity<List<BigStarSystemDTO>> getBigStars() {
+        List<BigStarSystemDTO> bigStars = service.getBiggestStarsWithPlanets();
+        return ResponseEntity.ok().body(bigStars);
     }
 }
