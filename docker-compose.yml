@@ -1,0 +1,28 @@
+services:
+  exoplanets-mysql:
+    image: mysql:8.0
+    container_name: exoplanets-mysql
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: exoplanets
+    volumes:
+      - ./.data/mysql:/var/lib/mysql
+
+  exoplanets-mongodb:
+    image: mongo:latest
+    container_name: exoplanets-mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./.data/mongodb:/data/db
+
+  phpmyadmin:
+    image: phpmyadmin:latest
+    container_name: exoplanets-phpmyadmin
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: exoplanets-mysql
+      MYSQL_ROOT_PASSWORD: root
