@@ -24,8 +24,13 @@ public class ExoplanetsController {
         return service.findAll(pageable);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping(value = "/{id}")
     public ExoplanetsDTO findById(@PathVariable String id){
         return service.findByid(id);
+    }
+
+    @GetMapping(value = "/earthSimilar")
+    public Page<ExoplanetsDTO> findEarthLike(Pageable pageable){
+        return service.findEarthLike(pageable);
     }
 }

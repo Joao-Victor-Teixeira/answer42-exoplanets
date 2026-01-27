@@ -18,14 +18,22 @@ public class ExoplanetsService {
     private ExoplanetsRepository repository;
 
     @Transactional(readOnly = true)
-    public Page<ExoplanetMinDTO> findAll(Pageable pageable){
+    public Page<ExoplanetMinDTO> findAll(Pageable pageable) {
         Page<Exoplanets> result = repository.findAll(pageable);
         return result.map(x -> new ExoplanetMinDTO(x));
     }
 
-    public ExoplanetsDTO findByid(String id){
+    @Transactional(readOnly = true)
+    public ExoplanetsDTO findByid(String id) {
         Exoplanets result = repository.findById(id).get();
         ExoplanetsDTO dto = new ExoplanetsDTO(result);
         return dto;
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ExoplanetsDTO> findEarthLike(Pageable pageable) {
+        Page<Exoplanets> earthLikePlanets = repository.findEarthLike(0.8, 1.25, 0.5, 2.0, pageable);
+
+        return earthLikePlanets.map(entity -> new ExoplanetsDTO(entity));
     }
 }
