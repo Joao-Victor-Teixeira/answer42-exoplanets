@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 import com.joaodev.answer42_api.repositories.ExoplanetsRepository;
+import com.joaodev.answer42_api.services.exceptions.ResourceNotFoundException;
 import com.joaodev.answer42_api.tests.ExoplanetsFactory;
 
 @ExtendWith(MockitoExtension.class)
@@ -32,10 +33,10 @@ public class ExoplanetsServiceTests {
 
     private Exoplanets exoplanets;
     private String existingId;
-    private String nonExistingId; 
+    private String nonExistingId;
 
     @BeforeEach
-    void setUp(){
+    void setUp() {
         exoplanets = ExoplanetsFactory.createExoplanets();
         existingId = "697957798c73b0fceffff2dd";
         nonExistingId = "999";
@@ -43,7 +44,7 @@ public class ExoplanetsServiceTests {
 
     @Test
     @DisplayName("Deve retornar uma página de exoplanetas")
-    void findAllShouldReturnPagedExoplanets(){
+    void findAllShouldReturnPagedExoplanets() {
         Page<Exoplanets> page = new PageImpl<>((List.of(exoplanets)));
         Pageable pageable = PageRequest.of(0, 10);
 
@@ -66,7 +67,7 @@ public class ExoplanetsServiceTests {
 
     @Test
     @DisplayName("Deve retornar um único exopplaneta correspondente ao id passado na requisição")
-    void findByIdShoudReturnExoplantWhenIdExists(){
+    void findByIdShoudReturnExoplanetWhenIdExists() {
 
         Mockito.when(repository.findById(existingId)).thenReturn(Optional.of(exoplanets));
 
@@ -79,5 +80,42 @@ public class ExoplanetsServiceTests {
         Assertions.assertEquals(exoplanets.getSt_rad(), exoplanetResult.getSt_rad());
 
         Mockito.verify(repository).findById(existingId);
+    }
+
+    @Test
+    @DisplayName("Deve lançar exceção personalizada ResourceNotFoundException quando o id não existir")
+    void findByIdShoudThrowResourceNotFoundExceptionWhenIdDoesExist() {
+
+        Mockito.when(repository.findById(nonExistingId)).thenReturn(Optional.empty());
+
+        Assertions.assertThrows(
+                ResourceNotFoundException.class,
+                () -> service.findByid(nonExistingId));
+
+        Mockito.verify(repository).findById(nonExistingId);
+    }
+
+    @Test
+    @DisplayName("Deve retornar uma página com os planetas similares à terra")
+    void findEarthLikeShouldReturPagedExoplanetsEarthSimilar() {
+
+        Page<Exoplanets> page = new PageImpl<>((List.of(exoplanets)));
+        Pageable pageable = PageRequest.of(0, 10);
+
+        Mockito.when(repository.findEarthLike(0.8, 1.25, 0.5, 2.0, pageable)).thenReturn(page);
+
+        Page<Exoplanets> exoplanetResult = service.findEarthLike(pageable);
+
+        Assertions.assertNotNull(exoplanetResult);
+        Assertions.assertEquals(1, exoplanetResult.getTotalElements());
+
+        Exoplanets exoplanet = exoplanetResult.getContent().get(0);
+
+        Assertions.assertEquals(exoplanets.getId(), exoplanet.getId());
+        Assertions.assertEquals(exoplanets.getPl_name(), exoplanet.getPl_name());
+        Assertions.assertEquals(exoplanets.getHostname(), exoplanet.getHostname());
+        Assertions.assertEquals(exoplanets.getSt_rad(), exoplanet.getSt_rad());
+
+        Mockito.verify(repository).findEarthLike(0.8, 1.25, 0.5, 2.0, pageable);
     }
 }
