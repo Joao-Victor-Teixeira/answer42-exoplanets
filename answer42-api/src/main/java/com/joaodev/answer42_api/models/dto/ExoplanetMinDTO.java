@@ -2,10 +2,12 @@ package com.joaodev.answer42_api.models.dto;
 
 import org.springframework.hateoas.RepresentationModel;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true, value = {"links"})
 public class ExoplanetMinDTO extends RepresentationModel<ExoplanetMinDTO> {
 
     private String id;

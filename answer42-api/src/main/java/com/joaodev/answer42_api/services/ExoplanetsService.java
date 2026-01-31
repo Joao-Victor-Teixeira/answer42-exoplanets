@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.joaodev.answer42_api.models.dto.BigStarSystemDTO;
-import com.joaodev.answer42_api.models.dto.ExoplanetMinDTO;
-import com.joaodev.answer42_api.models.dto.ExoplanetsDTO;
 import com.joaodev.answer42_api.models.dto.StarSystemDTO;
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 import com.joaodev.answer42_api.repositories.ExoplanetsRepository;
@@ -28,30 +26,29 @@ import com.joaodev.answer42_api.repositories.ExoplanetsRepository;
 @Service
 public class ExoplanetsService {
 
-    @Autowired
-    private ExoplanetsRepository repository;
+    private final ExoplanetsRepository repository;
 
-    @Autowired
-    private MongoTemplate mongoTemplate;
+    private final MongoTemplate mongoTemplate;
 
-    @Transactional(readOnly = true)
-    public Page<ExoplanetMinDTO> findAll(Pageable pageable) {
-        Page<Exoplanets> result = repository.findAll(pageable);
-        return result.map(x -> new ExoplanetMinDTO(x));
+    public ExoplanetsService(ExoplanetsRepository repository, MongoTemplate mongoTemplate) {
+        this.repository = repository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     @Transactional(readOnly = true)
-    public ExoplanetsDTO findByid(String id) {
-        Exoplanets result = repository.findById(id).get();
-        ExoplanetsDTO dto = new ExoplanetsDTO(result);
-        return dto;
+    public Page<Exoplanets> findAll(Pageable pageable) {
+        return repository.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
-    public Page<ExoplanetsDTO> findEarthLike(Pageable pageable) {
+    public Exoplanets findByid(String id) {
+        return repository.findById(id).get();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Exoplanets> findEarthLike(Pageable pageable) {
         Page<Exoplanets> earthLikePlanets = repository.findEarthLike(0.8, 1.25, 0.5, 2.0, pageable);
-
-        return earthLikePlanets.map(entity -> new ExoplanetsDTO(entity));
+        return earthLikePlanets;
     }
 
     @Transactional(readOnly = true)
@@ -87,9 +84,9 @@ public class ExoplanetsService {
         SortOperation sort = Aggregation.sort(Sort.Direction.DESC, "st_rad");
 
         GroupOperation group = Aggregation.group("hostname")
-                .first("st_rad").as("st_rad") 
+                .first("st_rad").as("st_rad")
                 .push(new org.bson.Document("pl_name", "$pl_name"))
-                .as("planets"); 
+                .as("planets");
 
         LimitOperation limit = Aggregation.limit(15);
 
@@ -100,4 +97,6 @@ public class ExoplanetsService {
 
         return mongoTemplate.aggregate(aggregation, "exoplanets", BigStarSystemDTO.class).getMappedResults();
     }
+
+    
 }
