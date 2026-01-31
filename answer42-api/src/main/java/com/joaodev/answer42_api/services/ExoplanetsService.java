@@ -21,6 +21,7 @@ import com.joaodev.answer42_api.models.dto.BigStarSystemDTO;
 import com.joaodev.answer42_api.models.dto.StarSystemDTO;
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 import com.joaodev.answer42_api.repositories.ExoplanetsRepository;
+import com.joaodev.answer42_api.services.exceptions.ResourceNotFoundException;
 
 @Service
 public class ExoplanetsService {
@@ -41,7 +42,7 @@ public class ExoplanetsService {
 
     @Transactional(readOnly = true)
     public Exoplanets findByid(String id) {
-        return repository.findById(id).get();
+        return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Recurso não encontrado"));
     }
 
     @Transactional(readOnly = true)
