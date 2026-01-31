@@ -79,9 +79,10 @@ public class ExoplanetsService {
         return results.getMappedResults();
     }
 
+    @Transactional(readOnly = true)
     public List<BigStarSystemDTO> getBiggestStarsWithPlanets() {
 
-        MatchOperation match = Aggregation.match(Criteria.where("st_rad").gt(1.5));
+        MatchOperation match = Aggregation.match(Criteria.where("st_rad").gt(0.5));
 
         SortOperation sort = Aggregation.sort(Sort.Direction.DESC, "st_rad");
 

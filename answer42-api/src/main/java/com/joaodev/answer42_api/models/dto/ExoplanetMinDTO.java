@@ -1,10 +1,12 @@
 package com.joaodev.answer42_api.models.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class ExoplanetMinDTO {
+public class ExoplanetMinDTO extends RepresentationModel<ExoplanetMinDTO> {
 
     private String id;
 
@@ -14,7 +16,7 @@ public class ExoplanetMinDTO {
     private Integer disc_year;
     private String disc_facility;
 
-    public ExoplanetMinDTO(){
+    public ExoplanetMinDTO() {
     }
 
     public ExoplanetMinDTO(String id, String pl_name, String hostname, Integer disc_year, String disc_facility) {
@@ -24,7 +26,7 @@ public class ExoplanetMinDTO {
         this.disc_year = disc_year;
         this.disc_facility = disc_facility;
     }
-    
+
     public ExoplanetMinDTO(Exoplanets entity) {
         id = entity.getId();
         pl_name = entity.getPl_name();

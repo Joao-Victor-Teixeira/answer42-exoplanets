@@ -1,8 +1,10 @@
 package com.joaodev.answer42_api.models.dto;
 
+import org.springframework.hateoas.RepresentationModel;
+
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 
-public class ExoplanetsDTO {
+public class ExoplanetsDTO extends RepresentationModel<ExoplanetsDTO> {
 
     private String id;
 
