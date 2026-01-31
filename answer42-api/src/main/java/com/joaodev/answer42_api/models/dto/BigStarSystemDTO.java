@@ -1,6 +1,5 @@
 package com.joaodev.answer42_api.models.dto;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class BigStarSystemDTO {
