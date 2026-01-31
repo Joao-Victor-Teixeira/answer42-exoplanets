@@ -8,7 +8,7 @@ public class BigStarSystemDTO {
     private String hostname;
     private Double st_rad;
     
-    private List<ExoplanetMinDTO> planets = new ArrayList<>();
+    private List<PlanetAggregationDTO> planets;
 
     public BigStarSystemDTO(){
     }
@@ -34,8 +34,8 @@ public class BigStarSystemDTO {
         this.st_rad = st_rad;
     }
 
-    public List<ExoplanetMinDTO> getPlanets() {
+    public List<PlanetAggregationDTO> getPlanets() {
         return planets;
-    }
+    }  
     
 }
