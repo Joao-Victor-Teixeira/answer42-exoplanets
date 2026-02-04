@@ -6,16 +6,26 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonIgnoreProperties(ignoreUnknown = true, value = {"links"})
+@Schema(description = "DTO com os campos mínimos dos planetas")
 public class ExoplanetMinDTO extends RepresentationModel<ExoplanetMinDTO> {
 
+    @Schema(description = "Atributo indentificador de cada planeta", example = "697957798c73b0fceffff2dd")
     private String id;
 
+    @Schema(description = "Nome do planeta", example = "55 Cnc e")
     private String pl_name;
+    
+    @Schema(description = "Nome da estrela hospedeira", example = "55 Cnc")
     private String hostname;
 
+    @Schema(description = "Ano da descoberta", example = "2004")
     private Integer disc_year;
+    
+    @Schema(description = "Observatório ou equipe de descoberta", example = "McDonald Observatory")
     private String disc_facility;
 
     public ExoplanetMinDTO() {
