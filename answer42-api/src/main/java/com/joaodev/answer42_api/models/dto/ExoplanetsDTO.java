@@ -4,32 +4,66 @@ import org.springframework.hateoas.RepresentationModel;
 
 import com.joaodev.answer42_api.models.entities.Exoplanets;
 
+import io.swagger.v3.oas.annotations.media.Schema;
+
+@Schema(description = "DTO com todos os campos de dados dos planetas")
 public class ExoplanetsDTO extends RepresentationModel<ExoplanetsDTO> {
 
+    @Schema(description = "Atributo indentificador de cada planeta", example = "697957798c73b0fceffff2dd")
     private String id;
 
+    @Schema(description = "Nome do planeta", example = "55Cnc e")
     private String pl_name;
+    
+    @Schema(description = "Nome da estrela hospedeira", example = "55Cnc")
     private String hostname;
 
+    @Schema(description = "Ano da descoberta", example = "2004")
     private Integer disc_year;
+    
+    @Schema(description = "Observatório ou equipe de descoberta", example = "McDonald Observatory")
     private String disc_facility;
+    
+    @Schema(description = "Método usado para a descoberta do planeta", example = "Radial Velocity")
     private String discoverymethod;
 
+    @Schema(description = "Raio do planeta em comparação com a Terra", example = "1.875")
     private Double pl_rade;
+    
+    @Schema(description = "Massa do planeta em comparação com a Terra", example = "7.99")
     private Double pl_masse;
+    
+    @Schema(description = "Temperatura de equilíbrio do planeta em Kelvin", example = "1158.0")
     private Double pl_eqt;
+
+    @Schema(description = "Período orbital do planeta (tempo para uma volta na estrela) em dias", example = "0.73654")
     private Double pl_orbtper;
+
+    @Schema(description = "Semieixo maior da órbita (distância média da estrela) em UA", example = "0.01544")
     private Double pl_orbsmax;
 
+    @Schema(description = "Temperatura efetiva da estrela hospedeira em Kelvin", example = "5196.0")
     private Double st_teff;
+
+    @Schema(description = "Raio da estrela hospedeira em comparação com o Sol", example = "0.94")
     private Double st_rad;
+
+    @Schema(description = "Massa da estrela hospedeira em comparação com o Sol", example = "0.91")
     private Double st_mass;
+
+    @Schema(description = "Luminosidade da estrela hospedeira (log10)", example = "-0.134")
     private Double st_lum;
 
+    @Schema(description = "Indica se o registro é o conjunto de parâmetros padrão da NASA", example = "true")
     private Boolean default_flag;
+
+    @Schema(description = "Indica se o planeta transita sua estrela hospedeira", example = "true")
     private Boolean tran_flag;
+
+    @Schema(description = "Indica se a existência do planeta é controversa", example = "false")
     private Boolean pl_controv_flag;
 
+    @Schema(description = "Referência bibliográfica da descoberta ou dos dados", example = "<a href=https://ui.adsabs.harvard.edu/abs/2011ApJ...740...49D/abstract>Dawson & Fabrycky 2011</a>")
     private String pl_refname;
 
     public ExoplanetsDTO(){

@@ -13,19 +13,19 @@ import io.swagger.v3.oas.annotations.media.Schema;
 @Schema(description = "DTO com os campos mínimos dos planetas")
 public class ExoplanetMinDTO extends RepresentationModel<ExoplanetMinDTO> {
 
-    @Schema(description = "Atributo indentificador de cada planeta", example = "697957798c73b0fceffff2dd")
+    @Schema(description = "Atributo indentificador de cada planeta", example = "697957798c73b0fceffff2de")
     private String id;
 
-    @Schema(description = "Nome do planeta", example = "55 Cnc e")
+    @Schema(description = "Nome do planeta", example = "AU Mic b")
     private String pl_name;
     
-    @Schema(description = "Nome da estrela hospedeira", example = "55 Cnc")
+    @Schema(description = "Nome da estrela hospedeira", example = "AU Mic")
     private String hostname;
 
-    @Schema(description = "Ano da descoberta", example = "2004")
+    @Schema(description = "Ano da descoberta", example = "2020")
     private Integer disc_year;
     
-    @Schema(description = "Observatório ou equipe de descoberta", example = "McDonald Observatory")
+    @Schema(description = "Observatório ou equipe de descoberta", example = "Transiting Exoplanet Survey Satellite (TESS)")
     private String disc_facility;
 
     public ExoplanetMinDTO() {
